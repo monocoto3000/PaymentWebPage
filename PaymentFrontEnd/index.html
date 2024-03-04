@@ -17,7 +17,21 @@
     <button type="submit">Enviar</button>
 </form>
 
+<h2>Mensajes Recibidos</h2>
+<ul id="mensajes"></ul>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.2.0/socket.io.js"></script>
 <script>
+    const socket = io('http://localhost:4000');
+
+    socket.on('newMessage', (data) => { 
+        console.log(data)
+        const mensajesList = document.getElementById('mensajes');
+        const listItem = document.createElement('li');
+        listItem.textContent = `Nombre: ${data.name}, Concepto: ${data.concept}, Total: ${data.total}`;
+        mensajesList.appendChild(listItem);
+    });
+
     document.getElementById('formulario').addEventListener('submit', async function(event) {
         event.preventDefault(); 
         const formData = new FormData(this); 
